@@ -25,6 +25,8 @@ Splitty handles the setup work for you:
   **Join Player 1** button on the title screen.
 - **Separate inputs.** While Player 2 is in a world, their window ignores the real keyboard and mouse. A
   stray click in their half can't move them, and the mouse stays with Player 1.
+- **Controller works in the background.** Player 2 automatically gets Controlify's "Out of Focus
+  Input" setting turned on, because their window almost never has focus.
 - **No pausing.** Only one window can have focus at a time, so Splitty turns off "pause when the window
   loses focus" and the vanilla low-FPS AFK throttle for both games.
 
@@ -35,7 +37,30 @@ Splitty handles the setup work for you:
 - Splitty in both instances
 - [Controlify](https://modrinth.com/mod/controlify) in **Player 2's instance only**
 
-## Setup in Prism Launcher
+## Quick setup on Fedora
+
+[`scripts/setup-fedora.sh`](scripts/setup-fedora.sh) sets everything up for the Flatpak version of
+Prism Launcher:
+
+- installs Prism, XWayland and controller udev rules if missing (it asks before using `sudo`)
+- creates the `Splitty-P1` and `Splitty-P2` instances with the right mods and roles
+- adds a **Splitty Split Screen** entry to your app menu that starts both players
+
+```sh
+# Download splitty-x.y.z.jar from the Releases page to ~/Downloads first, then:
+git clone https://github.com/iSaluki/splitty.git
+./splitty/scripts/setup-fedora.sh
+```
+
+Options: `--splitty-jar PATH`, `--p2-name NAME` (Player 2's offline name, default `Player2`),
+`--memory MB` (default 4096 per game), `--layout top_bottom|left_right`, `--skip-system`, `--yes`.
+Close Prism before running it. You can run it again to update the mods; worlds and your own mods are
+kept.
+
+After it finishes, open Prism once and sign in with your Microsoft account. Then start
+**Splitty Split Screen** from the app menu.
+
+## Manual setup in Prism Launcher
 
 1. **Create Player 1's instance.** Add Instance → Minecraft 26.3 → Fabric. Name it `Splitty P1`. Add
    Fabric API and Splitty (`splitty-x.y.z.jar`) to its Mods. **Do not add Controlify here**, or the
@@ -49,10 +74,7 @@ Splitty handles the setup work for you:
      `-Dsplitty.role=guest` to P2. This setting overrides the button.
 4. **Give Player 2 a different name.** One account can't be in the same world twice. Launch P2 with
    right-click → **Launch Offline** and enter a name like `Player2`, or use a second account.
-5. **Turn on background controller input in P2.** In P2, open Controlify's settings → Global settings and
-   turn on **Out of Focus Input**. P2's window almost never has focus, so without this setting the
-   controller does nothing.
-6. **Play.** Launch both instances. In P1, open or create a single-player world. P2 joins within a few
+5. **Play.** Launch both instances. In P1, open or create a single-player world. P2 joins within a few
    seconds. You'll see `[Splitty] World opened to LAN…` in P1's chat.
 
 Tips:

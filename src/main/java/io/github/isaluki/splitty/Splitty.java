@@ -19,6 +19,7 @@ public final class Splitty implements ClientModInitializer {
 
 	private static final HostController HOST = new HostController();
 	private static final GuestController GUEST = new GuestController();
+	private static final ControlifyCompat CONTROLIFY = new ControlifyCompat();
 
 	public static Role role() {
 		return SplittyConfig.get().role();
@@ -42,7 +43,10 @@ public final class Splitty implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			switch (role()) {
 				case HOST -> HOST.tick(client);
-				case GUEST -> GUEST.tick(client);
+				case GUEST -> {
+					GUEST.tick(client);
+					CONTROLIFY.tick();
+				}
 				case OFF -> HOST.endSession();
 			}
 		});
