@@ -1,9 +1,12 @@
 name: release
 
+# Publishes a GitHub release for the version in gradle.properties (mod_version)
+# whenever main is pushed and no release for that version exists yet.
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,16 +16,35 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - name: Read version
+        id: version
+        run: echo "tag=v$(grep '^mod_version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_OUTPUT"
+      - name: Check for existing release
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${{ steps.version.outputs.tag }}" > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-java@v4
+        if: steps.existing.outputs.exists == 'false'
         with:
           distribution: temurin
           java-version: 25
       - uses: gradle/actions/setup-gradle@v4
+        if: steps.existing.outputs.exists == 'false'
       - run: ./gradlew build
+        if: steps.existing.outputs.exists == 'false'
       - name: Publish GitHub release
+        if: steps.existing.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
         run: |
-          gh release create "$GITHUB_REF_NAME" build/libs/splitty-*.jar \
-            --title "Splitty ${GITHUB_REF_NAME#v} for Minecraft 26.3" \
+          gh release create "$TAG" build/libs/splitty-*.jar \
+            --target "$GITHUB_SHA" \
+            --title "Splitty ${TAG#v} for Minecraft 26.3" \
             --notes "Fabric mod for local split screen: one player on keyboard and mouse, one on a controller via Controlify. Put the jar in both Prism instances (Fabric API required; Controlify only in Player 2's instance). See the README for setup."
