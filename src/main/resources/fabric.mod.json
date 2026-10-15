@@ -1,0 +1,26 @@
+{
+	"schemaVersion": 1,
+	"id": "splitty",
+	"version": "${version}",
+	"name": "Splitty",
+	"description": "Local split screen: one player on keyboard and mouse, one on a controller (via Controlify), each in their own half of the screen.",
+	"authors": ["iSaluki"],
+	"contact": {
+		"sources": "https://github.com/iSaluki/splitty"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["io.github.isaluki.splitty.Splitty"]
+	},
+	"mixins": ["splitty.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"controlify": "*"
+	}
+}

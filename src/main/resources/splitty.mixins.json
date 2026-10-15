@@ -1,0 +1,17 @@
+{
+	"required": true,
+	"package": "io.github.isaluki.splitty.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"FramerateLimitTrackerMixin",
+		"IntegratedServerMixin",
+		"MinecraftMixin",
+		"MouseHandlerMixin",
+		"RenderSystemMixin",
+		"SDLEventHandlerMixin",
+		"WindowAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

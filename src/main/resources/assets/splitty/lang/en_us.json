@@ -1,0 +1,12 @@
+{
+	"splitty.role.off": "Off",
+	"splitty.role.host": "P1 Keyboard",
+	"splitty.role.guest": "P2 Controller",
+	"splitty.button.role": "Splitscreen: %s",
+	"splitty.button.role.tooltip": "Which player this game window is. P1 (keyboard and mouse) hosts the world; P2 (controller, needs Controlify) joins it automatically. Switching to or from Off fully applies after a restart.",
+	"splitty.button.join": "Join Player 1",
+	"splitty.button.join.no_host": "P1 has no world open",
+	"splitty.host.published": "World opened to LAN on port %s. Player 2 will join automatically.",
+	"splitty.host.publish_failed": "Could not open the world to LAN on port %s.",
+	"splitty.host.controlify_warning": "Controlify is installed in this keyboard/mouse window, so the controller may move both players. Remove Controlify from this instance."
+}
