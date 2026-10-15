@@ -358,6 +358,12 @@ def setup_instance(inst_id, title, role, mods):
         "OverrideMemory": "true",
         "MinMemAlloc": "1024",
         "MaxMemAlloc": str(MEMORY),
+        # Start small and un-maximized; Splitty then moves the window into its half. A window
+        # launched at full screen size gets auto-maximized by GNOME.
+        "OverrideWindow": "true",
+        "LaunchMaximized": "false",
+        "MinecraftWinWidth": "854",
+        "MinecraftWinHeight": "480",
     })
 
     config_path = os.path.join(config_dir, "splitty.json")

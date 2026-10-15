@@ -104,6 +104,15 @@ If the log says `video driver: wayland`, the windows won't move on their own. To
 - If none of that works, set `"borderless": false` and arrange the two windows yourself. On GNOME,
   Super+Up / Super+Down or Super+Left / Super+Right will snap them.
 
+If the two windows overlap or both fill the screen, look for these `Splitty` lines in each instance's
+`latest.log`:
+
+- `Window is at … maximized instead of …; placing it again`: something maximized the window, and
+  Splitty put it back. If it gives up after 5 attempts, turn off **Launch maximized** in Prism
+  (Settings → Minecraft → Window, or per instance under Edit → Settings → Window).
+- `Display …: usable area …, video driver …`: shows the screen area Splitty is splitting and whether
+  it is running through `x11` or `wayland`.
+
 ## Configuration
 
 Each instance has its own `config/splitty.json`, which is created on first launch:

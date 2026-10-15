@@ -41,6 +41,7 @@ public final class Splitty implements ClientModInitializer {
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> HOST.endSession());
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			WindowLayout.tick(client);
 			switch (role()) {
 				case HOST -> HOST.tick(client);
 				case GUEST -> {
