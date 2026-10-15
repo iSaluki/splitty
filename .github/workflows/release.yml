@@ -1,0 +1,28 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew build
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" build/libs/splitty-*.jar \
+            --title "Splitty ${GITHUB_REF_NAME#v} for Minecraft 26.3" \
+            --notes "Fabric mod for local split screen: one player on keyboard and mouse, one on a controller via Controlify. Put the jar in both Prism instances (Fabric API required; Controlify only in Player 2's instance). See the README for setup."
